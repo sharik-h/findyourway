@@ -24,7 +24,7 @@ fun BottomBarNavigation(navHostController: NavHostController) {
 
         }
         composable(route = BottomBarScreen.Profile.route){
-
+            Profile()
         }
     }
 }
