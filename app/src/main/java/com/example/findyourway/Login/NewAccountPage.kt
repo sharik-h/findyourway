@@ -23,6 +23,8 @@ fun NewAccountPage() {
 
     var quickSand = FontFamily(Font(R.font.quicksand_medium))
     var username by remember { mutableStateOf("") }
+    var dob by remember { mutableStateOf("") }
+    var location by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -52,6 +54,38 @@ fun NewAccountPage() {
             placeholder = {
                 Text(
                     text = "Username",
+                    color = Color.White,
+                    fontFamily = quickSand
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = Color.White,
+            )
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedTextField(
+            value = dob,
+            onValueChange = { dob = it },
+            modifier = Modifier.width(265.dp),
+            placeholder = {
+                Text(
+                    text = "DOB",
+                    color = Color.White,
+                    fontFamily = quickSand
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = Color.White,
+            )
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedTextField(
+            value = location,
+            onValueChange = { location = it },
+            modifier = Modifier.width(265.dp),
+            placeholder = {
+                Text(
+                    text = "Location",
                     color = Color.White,
                     fontFamily = quickSand
                 )
@@ -92,7 +126,7 @@ fun NewAccountPage() {
                 unfocusedBorderColor = Color.White,
             )
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(15.dp))
         Button(
             onClick = { /*TODO*/ },
             modifier = Modifier.width(265.dp),
@@ -105,22 +139,22 @@ fun NewAccountPage() {
                 color = Color.White
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(13.dp))
         Divider(
             thickness = 1.dp,
             color = Color.White,
             modifier = Modifier.width(265.dp)
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(13.dp))
         CustomButton(text = "Sign in with Google", icon = R.drawable.google_logo) {
 
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(15.dp))
         CustomButton(text = "Sign in with Facebook", icon = R.drawable.facebook_logo) {
 
         }
         TextButton(
-            onClick = { /*TODO*/ },
+            onClick = { navHostController.navigate(Screen.LoginPage.route) },
             colors = ButtonDefaults.textButtonColors(contentColor = Color.White)
         ) {
             Text(text = "Already have and account? Sign in", fontFamily = quickSand)
