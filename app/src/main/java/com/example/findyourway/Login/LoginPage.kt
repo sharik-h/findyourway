@@ -17,13 +17,18 @@ import androidx.navigation.NavHostController
 import com.example.findyourway.CustomComposes.CustomButton
 import com.example.findyourway.Navigation.Screen
 import com.example.findyourway.R
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun LoginPage(navHostController: NavHostController) {
 
+    val firebaseAuth = Firebase.auth
     var quickSand = FontFamily(Font(R.font.quicksand_medium))
     var email by remember { mutableStateOf("") }
-    
+    var password by remember { mutableStateOf("") }
+    var selected by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,12 +49,12 @@ fun LoginPage(navHostController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = if (selected) password else email,
+            onValueChange = { if (selected) password = it else email = it },
             modifier = Modifier.width(265.dp),
             placeholder = {
                 Text(
-                    text = "Email or Username",
+                    text = if(selected)"Password" else "Email or Username",
                     color = Color.White,
                     fontFamily = quickSand
                 )
@@ -60,12 +65,22 @@ fun LoginPage(navHostController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                if (!selected){
+                    selected = !selected
+                }else {
+                    firebaseAuth
+                        .signInWithEmailAndPassword(email, password)
+                        .addOnSuccessListener {
+
+                        }
+                }
+            },
             modifier = Modifier.width(265.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff05668D))
         ) {
            Text(
-               text = "SIGN IN",
+               text = if (selected)"SIGN IN" else "CONTINUE",
                fontSize = 15.sp,
                fontFamily = quickSand,
                color = Color.White
@@ -79,11 +94,11 @@ fun LoginPage(navHostController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         CustomButton(text = "Sign in with Google", icon = R.drawable.google_logo) {
-            
+
         }
         Spacer(modifier = Modifier.height(20.dp))
         CustomButton(text = "Sign in with Facebook", icon = R.drawable.facebook_logo) {
-            
+
         }
         TextButton(
             onClick = { navHostController.navigate(Screen.NewAccountPage.route) },

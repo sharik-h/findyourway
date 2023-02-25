@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "614910928351",
+    "project_id": "findyourway-f22cf",
+    "storage_bucket": "findyourway-f22cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614910928351:android:dc47daa2d2ebb900c3d06a",
+        "android_client_info": {
+          "package_name": "com.example.findyourway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614910928351-ob9pcmk3fiq2v67b2u47jv9iekb064oq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.findyourway",
+            "certificate_hash": "e175a6f817cfcacae5de5b3d6cf14f7f41f2beed"
+          }
+        },
+        {
+          "client_id": "614910928351-61fefkt76j0vp8dad3qjnf60e841ukk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK36SawqyadKp3nkK3yIvKDKhpzl81zPg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614910928351-61fefkt76j0vp8dad3qjnf60e841ukk6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

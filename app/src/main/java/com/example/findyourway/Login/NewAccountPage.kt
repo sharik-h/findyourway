@@ -18,11 +18,16 @@ import androidx.navigation.NavHostController
 import com.example.findyourway.CustomComposes.CustomButton
 import com.example.findyourway.Navigation.Screen
 import com.example.findyourway.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun NewAccountPage(navHostController: NavHostController) {
 
-    var quickSand = FontFamily(Font(R.font.quicksand_medium))
+    val firebaseAuth = Firebase.auth
+    val quickSand = FontFamily(Font(R.font.quicksand_medium))
     var username by remember { mutableStateOf("") }
     var dob by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
@@ -129,7 +134,16 @@ fun NewAccountPage(navHostController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(15.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                firebaseAuth
+                    .createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener {
+                        val currentUser = FirebaseAuth.getInstance().currentUser!!
+                        val profileUpdates = UserProfileChangeRequest.Builder()
+                            .setDisplayName(username).build()
+                        currentUser.updateProfile(profileUpdates)
+                    }
+                      },
             modifier = Modifier.width(265.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff05668D))
         ) {
