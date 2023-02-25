@@ -1,5 +1,6 @@
 package com.example.findyourway.Login
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -28,6 +30,7 @@ fun LoginPage(navHostController: NavHostController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var selected by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -94,7 +97,7 @@ fun LoginPage(navHostController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         CustomButton(text = "Sign in with Google", icon = R.drawable.google_logo) {
-
+            context.startActivity(Intent(context, singInWithGoogle::class.java))
         }
         Spacer(modifier = Modifier.height(20.dp))
         CustomButton(text = "Sign in with Facebook", icon = R.drawable.facebook_logo) {
