@@ -41,13 +41,8 @@ fun CustomButton(
     ) {
         Row(
             modifier = Modifier
-                .width(280.dp)
-                .padding(
-                    start = 12.dp,
-                    end = 16.dp,
-                    top = 12.dp,
-                    bottom = 12.dp
-                )
+                .width(265.dp)
+                .height(40.dp)
                 .animateContentSize(
                     animationSpec = tween(
                         durationMillis = 300,
