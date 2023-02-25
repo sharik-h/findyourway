@@ -31,7 +31,11 @@ fun LoginPage() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(id = R.drawable.logofyw), contentDescription = "")
+        Image(
+            painter = painterResource(id = R.drawable.logofyw),
+            contentDescription = "",
+            modifier = Modifier.size(200.dp)
+        )
         Text(
             text = "Login or Sign up for free",
             color = Color.White,
@@ -42,6 +46,7 @@ fun LoginPage() {
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
+            modifier = Modifier.width(265.dp),
             placeholder = {
                 Text(
                     text = "Email or Username",
@@ -56,7 +61,7 @@ fun LoginPage() {
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = { /*TODO*/ },
-            modifier = Modifier.width(280.dp),
+            modifier = Modifier.width(265.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff05668D))
         ) {
            Text(
@@ -70,7 +75,7 @@ fun LoginPage() {
         Divider(
             thickness = 1.dp,
             color = Color.White,
-            modifier = Modifier.width(280.dp)
+            modifier = Modifier.width(265.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
         CustomButton(text = "Sign in with Google", icon = R.drawable.google_logo) {
