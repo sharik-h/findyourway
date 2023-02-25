@@ -3,7 +3,9 @@ package com.example.findyourway
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.compose.rememberNavController
 import com.example.findyourway.Login.LoginPage
+import com.example.findyourway.Navigation.NavGraph
 import com.example.findyourway.ui.theme.FindyourwayTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +13,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FindyourwayTheme {
-                LoginPage()
+                val navContoller = rememberNavController()
+                NavGraph(navHostController = navContoller)
             }
         }
     }

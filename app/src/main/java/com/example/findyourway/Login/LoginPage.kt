@@ -11,15 +11,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.findyourway.CustomComposes.CustomButton
+import com.example.findyourway.Navigation.Screen
 import com.example.findyourway.R
 
-@Preview(showBackground = true)
 @Composable
-fun LoginPage() {
+fun LoginPage(navHostController: NavHostController) {
 
     var quickSand = FontFamily(Font(R.font.quicksand_medium))
     var email by remember { mutableStateOf("") }
@@ -86,7 +86,7 @@ fun LoginPage() {
             
         }
         TextButton(
-            onClick = { /*TODO*/ },
+            onClick = { navHostController.navigate(Screen.NewAccountPage.route) },
             colors = ButtonDefaults.textButtonColors(contentColor = Color.White)
         ) {
             Text(text = "Sign up with your email", fontFamily = quickSand)
