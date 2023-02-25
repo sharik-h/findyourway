@@ -12,7 +12,7 @@ fun BottomBarNavigation(navHostController: NavHostController) {
         navController = navHostController
     ){
         composable(route = BottomBarScreen.Feed.route){
-
+            Feeds()
         }
         composable(route = BottomBarScreen.Dashboard.route){
 
