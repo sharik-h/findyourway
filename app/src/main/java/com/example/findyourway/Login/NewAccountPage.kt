@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -70,7 +71,11 @@ fun NewAccountPage(navHostController: NavHostController) {
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.White,
-            )
+                focusedBorderColor = Color.White,
+                cursorColor = Color.White,
+                textColor = Color.White
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
@@ -86,7 +91,11 @@ fun NewAccountPage(navHostController: NavHostController) {
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.White,
-            )
+                focusedBorderColor = Color.White,
+                cursorColor = Color.White,
+                textColor = Color.White
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
@@ -102,7 +111,11 @@ fun NewAccountPage(navHostController: NavHostController) {
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.White,
-            )
+                focusedBorderColor = Color.White,
+                cursorColor = Color.White,
+                textColor = Color.White
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
@@ -118,7 +131,11 @@ fun NewAccountPage(navHostController: NavHostController) {
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.White,
-            )
+                focusedBorderColor = Color.White,
+                cursorColor = Color.White,
+                textColor = Color.White
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
@@ -134,7 +151,11 @@ fun NewAccountPage(navHostController: NavHostController) {
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.White,
-            )
+                focusedBorderColor = Color.White,
+                cursorColor = Color.White,
+                textColor = Color.White
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
         Spacer(modifier = Modifier.height(15.dp))
         Button(
