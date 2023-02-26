@@ -1,5 +1,6 @@
 package com.example.findyourway.Login
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.findyourway.CustomComposes.CustomButton
+import com.example.findyourway.MainActivity
 import com.example.findyourway.Navigation.Screen
 import com.example.findyourway.R
 import com.google.firebase.auth.FirebaseAuth
@@ -142,6 +144,7 @@ fun NewAccountPage(navHostController: NavHostController) {
                         val profileUpdates = UserProfileChangeRequest.Builder()
                             .setDisplayName(username).build()
                         currentUser.updateProfile(profileUpdates)
+                        context.startActivity(Intent(context, MainActivity::class.java))
                     }
                       },
             modifier = Modifier.width(265.dp),
