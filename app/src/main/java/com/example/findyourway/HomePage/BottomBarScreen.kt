@@ -14,7 +14,7 @@ sealed class BottomBarScreen (
     )
     object Dashboard: BottomBarScreen(
         route = "dashboard",
-        title = "Dashboard",
+        title = "Dashb..",
         icon = R.drawable.dashboard_white
     )
     object Scrolls: BottomBarScreen(
@@ -24,7 +24,7 @@ sealed class BottomBarScreen (
     )
     object Leaderboard: BottomBarScreen(
         route = "leaderboard",
-        title = "Leaderboard",
+        title = "Lead..",
         icon = R.drawable.leaderboard_white
     )
     object Profile: BottomBarScreen(
