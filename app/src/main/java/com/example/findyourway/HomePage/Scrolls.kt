@@ -1,9 +1,12 @@
 package com.example.findyourway.HomePage
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -16,7 +19,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.rememberAsyncImagePainter
+import com.example.findyourway.ViewModel.viewModel
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -27,10 +31,12 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("MissingPermission")
 @Composable
-fun Scrolls() {
+fun Scrolls(viewModel: viewModel) {
 
+    viewModel.getAllScroll()
     val quicksand = FontFamily(Font(R.font.quicksand_medium))
     var search by remember { mutableStateOf("") }
     var addScrollVisible by remember { mutableStateOf(false) }
@@ -49,7 +55,10 @@ fun Scrolls() {
                         Image(painter = painterResource(id = R.drawable.close_gray), contentDescription = "")
                     }
                 }
-                AddScroll()
+                AddScroll(viewModel = viewModel){
+                    viewModel.addNewScroll()
+                    addScrollVisible = false
+                }
             }
         }
     }
@@ -66,7 +75,9 @@ fun Scrolls() {
                         Image(painter = painterResource(id = R.drawable.close_gray), contentDescription = "")
                     }
                 }
-                ScrollCapture()
+                ScrollCapture(viewModel = viewModel){
+                    newScrollVisible = false
+                }
             }
         }
     }
@@ -80,7 +91,7 @@ fun Scrolls() {
                     Image(painter = painterResource(id = R.drawable.close_gray), contentDescription = "")
                 }
             }
-            ViewScroll()
+            ViewScroll(viewModel = viewModel)
         }
     }
 
@@ -94,7 +105,21 @@ fun Scrolls() {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPosition
-        )
+        ){
+            viewModel.allScrolls.forEach {item ->
+                val loc = item.location.split(",")
+                var cordinates  by remember { mutableStateOf( LatLng(loc[0].toDouble(), loc[1].toDouble()))}
+                Marker (
+                    position = cordinates,
+                    title = item.name,
+                    draggable = true,
+                    onInfoWindowClick = {
+                        viewModel.updateData("selname", item.name)
+                        viewModel.updateData("selpos", item.location)
+                        viewModel.updateData("seldesc", item.description) },
+                )
+            }
+        }
     }
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -158,7 +183,11 @@ fun Scrolls() {
                 .fillMaxWidth()
                 .padding(end = 10.dp)) {
             Spacer(modifier = Modifier.weight(0.5f))
-            FloatingActionButton(onClick = { newScrollVisible = true }, backgroundColor = Color.Black) {
+            FloatingActionButton(onClick = {
+                newScrollVisible = true
+                viewModel.searchScroll()
+                                           },
+                backgroundColor = Color.Black) {
                 Image(painter = painterResource(id = R.drawable.capture_white), contentDescription = "")
             }
         }
@@ -167,23 +196,23 @@ fun Scrolls() {
 }
 
 @Composable
-fun AddScroll() {
+fun AddScroll(viewModel: viewModel, onclick:() -> Unit ) {
 
     val quicksand = FontFamily(Font(R.font.quicksand_medium))
-    var name by remember { mutableStateOf("") }
-    var location by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    val newScroll by viewModel.newScroll
+    val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(20.dp)) {
+        .padding(20.dp)
+        .verticalScroll(scrollState)) {
         Text(text = "Add Scroll", fontFamily = quicksand , fontSize = 30.sp)
         Text(text = "New Scroll Creation", fontFamily = quicksand)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Name", fontFamily = quicksand)
         OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
+            value = newScroll.name,
+            onValueChange = { viewModel.updateData("nameScroll", it)},
             modifier = Modifier.fillMaxWidth(),
             placeholder = {
                           Text(text = "Name of the scroll", fontFamily = quicksand)
@@ -198,8 +227,8 @@ fun AddScroll() {
         Text(text = "Location", fontFamily = quicksand)
         Row(Modifier.fillMaxWidth()) {
             OutlinedTextField(
-                value = location,
-                onValueChange = { location = it },
+                value = newScroll.location,
+                onValueChange = { viewModel.updateData("locationScroll", it) },
                 placeholder = {
                     Text(text = "GPS cordinates", fontFamily = quicksand)
                 },
@@ -210,15 +239,20 @@ fun AddScroll() {
                 ),
                 modifier = Modifier.weight(0.5f)
             )
-            IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(0.1f)) {
+            IconButton(
+                onClick = { viewModel.updateData("locationScroll", "${local.latitude},${local.longitude}") },
+                modifier = Modifier
+                    .weight(0.1f)
+                    .shadow(elevation = 3.dp)
+            ) {
                 Image(painter = painterResource(id = R.drawable.location_gray), contentDescription = "")
             }
         }
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Description", fontFamily = quicksand)
         OutlinedTextField(
-            value = description,
-            onValueChange = { description = it },
+            value = newScroll.description,
+            onValueChange = { viewModel.updateData("descScroll", it) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp),
@@ -233,7 +267,7 @@ fun AddScroll() {
         )
         Spacer(modifier = Modifier.height(10.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onclick() },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff05668D)),
         ) {
@@ -243,30 +277,47 @@ fun AddScroll() {
 }
 
 @Composable
-fun ScrollCapture() {
+fun ScrollCapture(viewModel: viewModel, onclick: () -> Unit) {
 
     val quicksand = FontFamily(Font(R.font.quicksand_medium))
     var description by remember { mutableStateOf("") }
     var image by remember { mutableStateOf<Painter?>(null) }
+    val newPost by viewModel.newPost
+    val selectedPost by viewModel.selectedScroll
+    val bitimg  by viewModel.imageBitmap
+    val cLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
+        if (bitmap != null) {
+            viewModel.setbitimgValue(bitmap)
+        }
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(20.dp))
     {
         Text(text = "Scroll Capture", fontFamily = quicksand , fontSize = 30.sp)
-        Text(text = "Taj Mahal Scroll", fontFamily = quicksand, fontSize = 17.sp)
-        Text(text = "27.1750.78.04215", fontFamily = quicksand, fontSize = 17.sp)
+        Text(text = selectedPost.name, fontFamily = quicksand, fontSize = 17.sp)
+        Text(text = selectedPost.location, fontFamily = quicksand, fontSize = 17.sp)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Photo", fontFamily = quicksand)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(158.dp)
-                .border(color = Color.Black, shape = RectangleShape, width = 0.5.dp),
+                .border(color = Color.Black, shape = RectangleShape, width = 0.5.dp)
+                .clickable {
+                    if (bitimg == null) {
+                        cLauncher.launch()
+                    }
+                },
             contentAlignment = Alignment.Center
         ) {
             if (image != null){
-                Image(painter = image!!, contentDescription = "", modifier = Modifier.fillMaxSize())
+                Image(
+                    painter = rememberAsyncImagePainter(bitimg),
+                    contentDescription = "",
+                    modifier = Modifier.fillMaxSize()
+                )
             }else{
                 Image(
                     painter = painterResource(id = R.drawable.image_icon_gray),
@@ -278,8 +329,8 @@ fun ScrollCapture() {
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Description", fontFamily = quicksand)
         OutlinedTextField(
-            value = description,
-            onValueChange = { description = it },
+            value = newPost.Description,
+            onValueChange = { viewModel.updateData("postDesc", it) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp),
@@ -294,7 +345,7 @@ fun ScrollCapture() {
         )
         Spacer(modifier = Modifier.height(10.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onclick() },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xff05668D)),
         ) {
@@ -304,11 +355,11 @@ fun ScrollCapture() {
 }
 
 @Composable
-fun ViewScroll() {
+fun ViewScroll(viewModel: viewModel) {
     val quicksand = FontFamily(Font(R.font.quicksand_medium))
     var description by remember { mutableStateOf("") }
     var image by remember { mutableStateOf<Painter?>(null) }
-
+    val scrollData by viewModel.scrollData
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(20.dp))

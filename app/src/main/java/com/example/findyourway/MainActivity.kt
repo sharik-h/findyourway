@@ -3,13 +3,17 @@ package com.example.findyourway
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.findyourway.HomePage.HomeScreen
 import com.example.findyourway.Navigation.NavGraph
+import com.example.findyourway.ViewModel.viewModel
 import com.example.findyourway.ui.theme.FindyourwayTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -22,6 +26,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var fusedLocationProvider: FusedLocationProviderClient
     private lateinit var currentLocation: Location
     var firebaseUser: FirebaseUser? = null
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,12 +48,13 @@ class MainActivity : ComponentActivity() {
         }
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
+        val viewModel: viewModel by viewModels()
 
         setContent {
             FindyourwayTheme {
                 val navContoller = rememberNavController()
                 if (firebaseUser != null){
-                    HomeScreen(navHostController = navContoller)
+                    HomeScreen(navHostController = navContoller, viewModel = viewModel)
                 }else{
                     NavGraph(navHostController = navContoller)
                 }

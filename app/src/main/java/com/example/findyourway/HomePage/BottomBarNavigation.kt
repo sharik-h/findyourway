@@ -1,12 +1,16 @@
 package com.example.findyourway.HomePage
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.findyourway.ViewModel.viewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BottomBarNavigation(navHostController: NavHostController) {
+fun BottomBarNavigation(navHostController: NavHostController, viewModel: viewModel) {
     NavHost(
         startDestination = BottomBarScreen.Feed.route,
         navController = navHostController
@@ -18,7 +22,7 @@ fun BottomBarNavigation(navHostController: NavHostController) {
             Dashboard()
         }
         composable(route = BottomBarScreen.Scrolls.route){
-            Scrolls()
+            Scrolls(viewModel = viewModel)
         }
         composable(route = BottomBarScreen.Leaderboard.route){
 

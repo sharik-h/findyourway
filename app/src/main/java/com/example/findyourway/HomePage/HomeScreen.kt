@@ -1,5 +1,7 @@
 package com.example.findyourway.HomePage
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
@@ -15,14 +17,16 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.findyourway.R
+import com.example.findyourway.ViewModel.viewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeScreen(navHostController: NavHostController) {
+fun HomeScreen(navHostController: NavHostController, viewModel: viewModel) {
     Scaffold(
         bottomBar = { BottomBar(navHostController = navHostController) }
     ) { it->
         val i = it
-       BottomBarNavigation(navHostController = navHostController)
+       BottomBarNavigation(navHostController = navHostController, viewModel = viewModel)
     }
 }
 
@@ -32,7 +36,6 @@ fun BottomBar(navHostController: NavHostController) {
         BottomBarScreen.Feed,
         BottomBarScreen.Dashboard,
         BottomBarScreen.Scrolls,
-        BottomBarScreen.Leaderboard,
         BottomBarScreen.Profile
     )
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
