@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.findyourway.CustomComposes.CustomButton
+import com.example.findyourway.MainActivity
 import com.example.findyourway.Navigation.Screen
 import com.example.findyourway.R
 import com.google.firebase.auth.ktx.auth
@@ -64,6 +65,9 @@ fun LoginPage(navHostController: NavHostController) {
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color.White,
+                focusedBorderColor = Color.White,
+                cursorColor = Color.White,
+                textColor = Color.White
             )
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -75,7 +79,7 @@ fun LoginPage(navHostController: NavHostController) {
                     firebaseAuth
                         .signInWithEmailAndPassword(email, password)
                         .addOnSuccessListener {
-
+                            context.startActivity(Intent(context, MainActivity::class.java))
                         }
                 }
             },
